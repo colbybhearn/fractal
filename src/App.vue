@@ -14,9 +14,8 @@
 export default {
   name: 'App',
   components: {
-    Controls
   },
-  data: function(){
+  data: function() {
     return {
       params: [],
       generations: [],
