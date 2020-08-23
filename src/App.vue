@@ -21,12 +21,13 @@ export default {
       generations: [],
       generation: 0,
       ctx: {},
-      size : 50,
-      gen: 3
+      size : 560,
+      gen: 1
     }
     },
     mounted: function(){
       this.ctx = document.getElementById('canvas').getContext('2d')
+      this.update();
     },
   methods:{    
     
