@@ -1,6 +1,6 @@
 <template>
   <div id="app">    
-    <label>size</label><input id='size' step='20' type="number" name="" v-model="size"  v-on:change='update'><br/>
+    <label>Size</label><input id='size' step='20' type="number" name="" v-model="size"  v-on:change='update'><br/>
 		<label>Generation</label><input id='gen' type="number" name="" v-model="gen" v-on:change='update'><br/>
     
 		<input id='sizeLrg' type="button" text="Larger" value="Larger" >
@@ -10,7 +10,6 @@
 </template>
 
 <script>
-import Controls from './components/Controls.vue'
 
 export default {
   name: 'App',
