@@ -1,10 +1,16 @@
 <template>
-  <div id="app">    
-    <label>Size</label><input id='size' step='20' type="number" name="" v-model="size"  v-on:change='update'><br/>
-		<label>Generation</label><input id='gen' type="number" name="" v-model="gen" v-on:change='update'><br/>
-    
-		<input id='sizeLrg' type="button" text="Larger" value="Larger" >
-		<input id='sizeSml' type="button" text="Smaller" value = "Smaller">
+  <div id="app">
+    <div class='controls'>
+    <label style='display:block'>Fractal</label>
+    <select v-model="fractal" style='display:block;width:108px'>  
+      <option>Triangle</option>
+      <option>Snowflake</option>
+    </select>
+    <!-- <input step='20' type="radio" id='triangle' value="triangle" v-model="fractal"  v-on:change='update' style='width: 30px;display: inline;'><label for="triangle">Triangle</label><br>
+    <input step='20' type="radio" id='snowflake' value="snowflake" v-model="fractal"  v-on:change='update'><label for="snowflake">Snowflake</label> -->
+    <label>Size</label><input id='size' step='20' type="number" name="" v-model="size"  v-on:change='update'>
+		<label>Generation</label><input id='gen' type="number" name="" v-model="gen" v-on:change='update'>    
+    </div>
     <canvas id="canvas" height="1000" width="1000">		</canvas>
   </div>
 </template>
@@ -21,6 +27,7 @@ export default {
       generations: [],
       generation: 0,
       ctx: {},
+      fractal: '',
       size : 560,
       gen: 1
     }
@@ -30,7 +37,6 @@ export default {
       this.update();
     },
   methods:{    
-    
     update: function(){
       this.draw();
     },
@@ -82,7 +88,7 @@ export default {
     }
     fractalSnowFlake.drawGeneration=function(frac, gen){
       if(frac.gen[gen]===undefined)
-        getGen(frac, gen);
+        vc.getGen(frac, gen);
       var points = frac.gen[gen];
       
       var rotation = 0;
@@ -95,9 +101,9 @@ export default {
         vc.ctx.rotate(rotation);
         vc.ctx.lineTo(points[i].y,0);
 
-        var red = this.getRandomInt(256);
-        var blue = this.getRandomInt(256);
-        var green = this.getRandomInt(256);
+        var red = vc.getRandomInt(256);
+        var blue = vc.getRandomInt(256);
+        var green = vc.getRandomInt(256);
 
         vc.ctx.strokeStyle="#"+red.toString(16)+blue.toString(16)+green.toString(16);
 
@@ -118,7 +124,7 @@ export default {
       var oldPoints = frac.gen[gen];
       var newPoints = [];
       // iterate points in this gen three at a time to make the new gen
-      for(i=0;i<oldPoints.length;i+=3)
+      for(var i=0;i<oldPoints.length;i+=3)
       {
         var p1 = oldPoints[i];
         var p2 = oldPoints[i+1];
@@ -191,7 +197,10 @@ export default {
     vc.ctx.translate(center.x,center.y);
     var g= vc.gen;
     for(g=g;g>0;g--)
-      factalTriangle.drawGeneration(fractalSnowFlake, g);
+      if(vc.fractal==='Triangle')
+        factalTriangle.drawGeneration(factalTriangle, g);
+      else
+        fractalSnowFlake.drawGeneration(fractalSnowFlake,g);
     
     vc.ctx.translate(-center.x,-center.y);
     },
@@ -216,6 +225,16 @@ getRandomInt:function(max) {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.controls{
+  position: absolute;
+  background: gray;
+}
+
+.controls input{
+  display:block;
+  width: 100px;
+  text-align: center;
 }
 </style>
